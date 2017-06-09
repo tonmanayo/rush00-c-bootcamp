@@ -41,5 +41,4 @@ public:
 	Enemy();
 };
 
-
 #endif //BOOTCAMP_ENEMY_H

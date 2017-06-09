@@ -11,8 +11,6 @@
 class Bismaric : public Player{
 public:
 	void SpecialLazer(int **, int, int);
-
-
 };
 
 

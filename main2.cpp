@@ -35,10 +35,9 @@ int main(){
 	refresh();
 	getch();
 	nodelay(stdscr, TRUE);
-	double count = 0;
+	int count = 0;
 	world.DisplayW(NewWorld);
 	Enemy enemy;
-	int nbBullets = 0;
 	int Status = 1;
 
 	while (Status == 1) {
@@ -49,11 +48,10 @@ int main(){
 		world.Shoot(NewWorld, key);
 		world.MovePlayer(NewWorld, key);
 		world.DisplayW(NewWorld);
+		mvprintw(MaxHeight - 1, 0, "Your Score is: %d",  count);
 		world.MoveWorld(NewWorld);
-
+		count += 1;
 		usleep(30000);
-		count = count + 0.1;
-		mvprintw(MaxHeight - 1, 0, "Your Score is: %i", count);
 		refresh();
 
 	}
@@ -64,8 +62,7 @@ int main(){
 	getch();
 	clear();
 
-
-	world.DestroyW(NewWorld, MaxHeight - 1);
+	world.DestroyW(NewWorld);
 	endwin();
 
 	return 0;

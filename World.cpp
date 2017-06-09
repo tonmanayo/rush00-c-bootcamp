@@ -6,10 +6,9 @@
 #include <zconf.h>
 #include "World.h"
 
-
 World::World(): MaxWidth(0), MaxHeight(0) {}
 
-World::World(int y, int x): MaxHeight(y), MaxWidth(x) {
+World::World(int y, int x): MaxHeight(y), MaxWidth(x), _nbBullets(0) {
 
 }
 
@@ -50,7 +49,7 @@ void World::InitializeWorld(int **world) {
 	world[_pY][_Px] = Player;
 }
 
-void World::DestroyW(int **&world, int rows) {
+void World::DestroyW(int **&world) {
 
 	delete [] world;
 	world = NULL;
@@ -61,17 +60,17 @@ void World::DisplayW(int **world) {
 		for (int j = 0; j < MaxWidth; j++) {
 			if (world[i][j] == Blank)
 				mvprintw(i, j, " ");
-			else if (world[i][j] == Player)
+			if (world[i][j] == Player)
 				mvprintw(i, j, "P");
-			else if (world[i][j] == Boarder2)
+			if (world[i][j] == Boarder2)
 				mvprintw(i, j, "/");
-			else if (world[i][j] == Boarder1)
+			if (world[i][j] == Boarder1)
 				mvaddch(i, j, '\\');
-			else if (world[i][j] == Bullets)
+			if (world[i][j] == Bullets )
 				mvaddch(i, j, '>');
-			else if (world[i][j] == EnemyCreep)
+			if (world[i][j] == EnemyCreep)
 				mvaddch(i, j, '#');
-			else if (world[i][j] == Lazer)
+			if (world[i][j] == Lazer)
 				mvaddch(i, j, '-');
 		}
 	}
@@ -122,30 +121,28 @@ void World::MoveWorld(int **world) {
 }
 
 void World::Shoot(int **world, int key) {
-
-	if (key == KEY_RIGHT)
+	if (key == KEY_RIGHT ){
 		world[_pY][_Px + 1] = Bullets;
+		_nbBullets++;
+	}
 		for (int i = 0; i < MaxHeight; ++i) {
 			for (int j = 0; j < MaxWidth; ++j) {
 				if (world[i][j + 1] == EnemyCreep && world[i][j] == Bullets) {
 					world[i][j] = Blank;
 					world[i][j + 1] = Blank;
-					break ;
-				} else if (world[i][j] == Bullets) {
+					break;
+				}
+				if (world[i][j] == Bullets ) {
 					world[i][j] = Blank;
 					world[i][j + 1] = Bullets;
-					break ;
-					}
+					_nbBullets++;
+					j++;
+				}
 			}
 		}
 	if (key == 's') {
-		DisplayW(world);
-		usleep(500000);
-		DisplayW(world);
-		for (int j = 1; j < MaxWidth; ++j) {
-			world[_pY][j] = Blank;
-		}
+			world[_pY + 1][1] = Bullets;
+			world[_pY][1] = Bullets;
+			world[_pY - 1][1] = Bullets;
 	}
-
 }
-

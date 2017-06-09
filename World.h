@@ -12,31 +12,27 @@
 
 class World : public Bismaric, public Enemy{
 
+private:
+	int _nbBullets;
+	int MaxWidth;
+	int MaxHeight;
 public:
 	World();
 	World(int, int);
 	virtual ~World();
 	int **CreateWorld();
 	void InitializeWorld(int **);
-	void DestroyW(int **&, int);
+	void DestroyW(int **&);
 	void DisplayW(int **);
 	void MovePlayer(int **, int);
 	void MoveWorld(int **);
 	void Shoot(int **, int);
 	World &operator=(World const &rhs);
 
-private:
-	int MaxWidth;
-	int MaxHeight;
-public:
 	int getMaxWidth() const;
-
 	void setMaxWidth(int Width);
-
 	int getMaxHeight() const;
-
 	void setMaxHeight(int Height);
-
 	enum WorldPieces {
 		Blank = 0,
 		Player,
